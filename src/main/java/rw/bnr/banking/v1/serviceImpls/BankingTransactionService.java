@@ -1,10 +1,12 @@
 package rw.bnr.banking.v1.serviceImpls;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import rw.bnr.banking.v1.enums.ETransactionType;
 import rw.bnr.banking.v1.exceptions.BadRequestException;
 import rw.bnr.banking.v1.exceptions.ResourceNotFoundException;
@@ -15,8 +17,6 @@ import rw.bnr.banking.v1.repositories.IBankingTransactionRepository;
 import rw.bnr.banking.v1.services.IBankingTransactionService;
 import rw.bnr.banking.v1.services.ICustomerService;
 import rw.bnr.banking.v1.standalone.MailService;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

@@ -1,15 +1,14 @@
 package rw.bnr.banking.v1.services;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import rw.bnr.banking.v1.enums.ECustomerStatus;
-import rw.bnr.banking.v1.enums.ERole;
+
 import rw.bnr.banking.v1.models.Customer;
 import rw.bnr.banking.v1.models.File;
 import rw.bnr.banking.v1.payload.request.UpdateCustomerDTO;
-
-import java.util.Optional;
-import java.util.UUID;
 
 
 public interface ICustomerService {

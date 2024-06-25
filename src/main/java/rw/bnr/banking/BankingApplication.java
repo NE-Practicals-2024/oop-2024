@@ -1,16 +1,17 @@
 package rw.bnr.banking;
 
-import rw.bnr.banking.v1.enums.ERole;
-import rw.bnr.banking.v1.models.Role;
-import rw.bnr.banking.v1.repositories.IRoleRepository;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import rw.bnr.banking.v1.enums.ERole;
+import rw.bnr.banking.v1.models.Role;
+import rw.bnr.banking.v1.repositories.IRoleRepository;
 
 @SpringBootApplication
 public class BankingApplication {

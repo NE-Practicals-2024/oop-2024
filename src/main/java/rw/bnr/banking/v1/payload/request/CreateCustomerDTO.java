@@ -3,9 +3,8 @@ package rw.bnr.banking.v1.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import rw.bnr.banking.v1.validators.ValidPassword;
 import lombok.Data;
+import rw.bnr.banking.v1.validators.ValidPassword;
 
 import java.time.LocalDate;
 
@@ -26,7 +25,7 @@ public class CreateCustomerDTO {
     private String mobile;
 
     // It should not be a future date
-    @Past(message = "Date of birth should be in the past")
+    @PastOrPresent(message = "Date of birth should be in the past")
     @NotNull(message = "Date of birth should not be empty")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;

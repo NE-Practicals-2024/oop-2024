@@ -1,27 +1,26 @@
 package rw.bnr.banking.v1.serviceImpls;
 
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import rw.bnr.banking.v1.exceptions.BadRequestException;
 import rw.bnr.banking.v1.exceptions.ResourceNotFoundException;
 import rw.bnr.banking.v1.models.Customer;
 import rw.bnr.banking.v1.models.File;
 import rw.bnr.banking.v1.payload.request.UpdateCustomerDTO;
 import rw.bnr.banking.v1.repositories.ICustomerRepository;
-import rw.bnr.banking.v1.repositories.IRoleRepository;
 import rw.bnr.banking.v1.services.ICustomerService;
 import rw.bnr.banking.v1.services.IFileService;
 import rw.bnr.banking.v1.standalone.FileStorageService;
 import rw.bnr.banking.v1.utils.Utility;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +29,6 @@ public class CustomerServiceImpl implements ICustomerService {
     private final ICustomerRepository userRepository;
     private final IFileService fileService;
     private final FileStorageService fileStorageService;
-    private final EntityManager em;
-    private final IRoleRepository roleRepository;
 
     @Override
     public Page<Customer> getAll(Pageable pageable) {
@@ -85,6 +82,7 @@ public class CustomerServiceImpl implements ICustomerService {
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setMobile(dto.getMobile());
+        entity.setDob(dto.getDob());
 
         return this.userRepository.save(entity);
     }
