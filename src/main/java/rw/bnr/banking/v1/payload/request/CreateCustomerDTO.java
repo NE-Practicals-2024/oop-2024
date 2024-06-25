@@ -21,7 +21,7 @@ public class CreateCustomerDTO {
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "^\\+250\\d{9}$", message = "Your phone is not a valid tel we expect +2507***")
+    @Pattern(regexp = "^\\+250\\d{9}$", message = "Your phone is not a valid tel we expect +2507******")
     private String mobile;
 
     // It should not be a future date
@@ -31,6 +31,7 @@ public class CreateCustomerDTO {
     private LocalDate dob;
 
     @NotNull
+    @DecimalMin(value = "0.1", message = "Balance should be greater than 0", inclusive = false)
     private Double balance;
 
     @ValidPassword

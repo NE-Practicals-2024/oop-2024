@@ -10,12 +10,15 @@ DECLARE
     customer_name  TEXT;
     account_number TEXT;
     message_uuid   UUID;
+    receiver       customers%ROWTYPE;
 BEGIN
     -- Generate a new UUID
     message_uuid := uuid_generate_v4();
 
     -- Get the customer first name and last name into a single variable
     SELECT CONCAT(first_name, ' ', last_name) INTO customer_name FROM customers WHERE id = NEW.customer_id;
+    -- Get Receiver
+    SELECT * INTO receiver FROM customers WHERE id = NEW.sent_to_id;
 
     -- Get the account number
     SELECT account INTO account_number FROM customers WHERE id = NEW.customer_id;
@@ -28,8 +31,9 @@ BEGIN
         message := 'Dear ' || customer_name || ' Your SAVING of ' || NEW.amount || ' on your account ' ||
                    account_number || ' has been completed successfully. Transaction ID: ' || message_uuid;
     ELSEIF NEW.type = 'TRANSFER' THEN
-        message := 'Dear ' || customer_name || ' Your TRANSFER of ' || NEW.amount || ' on another account ' ||
-                   account_number || ' has been completed successfully. Transaction ID: ' || message_uuid;
+        message := 'Dear ' || customer_name || ' Your TRANSFER of ' || NEW.amount || ' to ' || receiver.first_name ||
+                   ' ' || receiver.last_name ||
+                   ' has been completed successfully. Transaction ID: ' || message_uuid;
     END IF;
 
     -- Insert the message into the message table

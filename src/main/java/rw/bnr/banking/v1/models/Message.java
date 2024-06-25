@@ -26,7 +26,7 @@ public class Message {
     private String message;
 
     @JoinColumn(name = "customer_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     private Customer customer;
 
     @CreationTimestamp
