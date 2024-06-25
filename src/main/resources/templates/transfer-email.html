@@ -26,10 +26,31 @@
             Your new balance is  <span th:text="${balance}" style="font-weight: bold; font-size: 18px">0000</span> FRW
         </p>
     </div>
-    <div style="margin-top: 24px; text-align: center;">
+    <div style="margin-top: 24px; text-align: start; gap: 10px;display: flex; align-items: center">
         <a href="http://localhost:9094/swagger-ui/index.html#/authentication-controller/login"
-           style="display: inline-block; padding: 12px 24px; color: white; background-color: #0DA549; border-radius: 9999px; text-decoration: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-            Go to Login
+           style="padding: 12px 24px; color: white; background-color: #0DA549; border-radius: 9999px; text-decoration: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); display: flex; align-items: center;width: fit-content; gap: 8px">
+            <?xml version="1.0" encoding="iso-8859-1"?>
+            <svg fill="#fff" height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink"
+                 viewBox="0 0 499.1 499.1" xml:space="preserve">
+			<path d="M0,249.6c0,9.5,7.7,17.2,17.2,17.2h327.6l-63.9,63.8c-6.7,6.7-6.7,17.6,0,24.3c3.3,3.3,7.7,5,12.1,5s8.8-1.7,12.1-5
+				l93.1-93.1c6.7-6.7,6.7-17.6,0-24.3l-93.1-93.1c-6.7-6.7-17.6-6.7-24.3,0c-6.7,6.7-6.7,17.6,0,24.3l63.8,63.8H17.2
+				C7.7,232.5,0,240.1,0,249.6z"/>
+                <path d="M396.4,494.2c56.7,0,102.7-46.1,102.7-102.8V107.7C499.1,51,453,4.9,396.4,4.9H112.7C56,4.9,10,51,10,107.7V166
+				c0,9.5,7.7,17.1,17.1,17.1c9.5,0,17.2-7.7,17.2-17.1v-58.3c0-37.7,30.7-68.5,68.4-68.5h283.7c37.7,0,68.4,30.7,68.4,68.5v283.7
+				c0,37.7-30.7,68.5-68.4,68.5H112.7c-37.7,0-68.4-30.7-68.4-68.5v-57.6c0-9.5-7.7-17.2-17.2-17.2S10,324.3,10,333.8v57.6
+				c0,56.7,46.1,102.8,102.7,102.8H396.4L396.4,494.2z"/>
+            </svg>
+            <span>Go to Login</span>
+        </a>
+        <a
+                th:href="@{'http://localhost:9094/api/v1/transactions/download/' + ${customerId}}"
+                style="padding: 12px 24px; color: white; background-color: #0DA549; border-radius: 9999px; text-decoration: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); display: flex; align-items: center;width: fit-content; gap: 4px">
+            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.25589 16C3.8899 15.0291 3 13.4422 3 11.6493C3 9.20008 4.8 6.9375 7.5 6.5C8.34694 4.48637 10.3514 3 12.6893 3C15.684 3 18.1317 5.32251 18.3 8.25C19.8893 8.94488 21 10.6503 21 12.4969C21 14.0582 20.206 15.4339 19 16.2417M12 21V11M12 21L9 18M12 21L15 18"
+                      stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Download Report</span>
         </a>
     </div>
 </div>

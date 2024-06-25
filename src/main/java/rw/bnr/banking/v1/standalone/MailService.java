@@ -12,6 +12,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -122,7 +123,7 @@ public class MailService {
         }
     }
 
-    public void sendWithdrawalSuccessfulEmail(String to, String fullName, String amount, String balance, String accountCode) {
+    public void sendWithdrawalSuccessfulEmail(String to, String fullName, String amount, String balance, String accountCode, UUID customerId) {
         try {
             MimeMessage message = this.mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -133,6 +134,7 @@ public class MailService {
             context.setVariable("amount", amount);
             context.setVariable("balance", balance);
             context.setVariable("accountCode", accountCode);
+            context.setVariable("customerId", customerId);
             context.setVariable("currentYear", LocalDate.now().getYear());
 
             String htmlContent = templateEngine.process("withdraw-email", context);
@@ -147,7 +149,7 @@ public class MailService {
         }
     }
 
-    public void sendSavingsStoredSuccessfullyEmail(String to, String fullName, String amount, String balance, String accountCode) {
+    public void sendSavingsStoredSuccessfullyEmail(String to, String fullName, String amount, String balance, String accountCode, UUID customerId) {
         try {
             MimeMessage message = this.mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -158,6 +160,7 @@ public class MailService {
             context.setVariable("amount", amount);
             context.setVariable("balance", balance);
             context.setVariable("accountCode", accountCode);
+            context.setVariable("customerId", customerId);
             context.setVariable("currentYear", LocalDate.now().getYear());
 
             String htmlContent = templateEngine.process("saving-email", context);
@@ -172,7 +175,7 @@ public class MailService {
         }
     }
 
-    public void sendTransferSuccessfulEmail(String to, String fullName, String amount, String balance, String receiverNames, String accountCode) {
+    public void sendTransferSuccessfulEmail(String to, String fullName, String amount, String balance, String receiverNames, String accountCode, UUID customerId) {
         try {
             MimeMessage message = this.mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -184,6 +187,7 @@ public class MailService {
             context.setVariable("balance", balance);
             context.setVariable("receiverNames", receiverNames);
             context.setVariable("accountCode", accountCode);
+            context.setVariable("customerId", customerId);
             context.setVariable("currentYear", LocalDate.now().getYear());
 
             String htmlContent = templateEngine.process("transfer-email", context);

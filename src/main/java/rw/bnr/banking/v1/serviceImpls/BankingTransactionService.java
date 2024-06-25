@@ -62,11 +62,11 @@ public class BankingTransactionService implements IBankingTransactionService {
         transaction.setTransactionType(dto.getTransactionType());
         transaction.setCustomer(customer);
         if (dto.getTransactionType() == ETransactionType.SAVING) {
-            mailService.sendSavingsStoredSuccessfullyEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), customer.getAccount());
+            mailService.sendSavingsStoredSuccessfullyEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), customer.getAccount(), customer.getId());
         } else if (dto.getTransactionType() == ETransactionType.WITHDRAW) {
-            mailService.sendWithdrawalSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), customer.getAccount());
+            mailService.sendWithdrawalSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), customer.getAccount(), customer.getId());
         } else if (dto.getTransactionType() == ETransactionType.TRANSFER) {
-            mailService.sendTransferSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), transaction.getReceiver().getFullName(), customer.getAccount());
+            mailService.sendTransferSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), transaction.getReceiver().getFullName(), customer.getAccount(), customer.getId());
             mailService.sendReceivedAmountEmail(transaction.getReceiver().getEmail(), transaction.getReceiver().getFullName(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(transaction.getReceiver().getBalance()));
         }
         return this.bankingTransactionRepository.save(transaction);
