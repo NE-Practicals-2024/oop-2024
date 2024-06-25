@@ -1,6 +1,5 @@
 package rw.bnr.banking.v1.serviceImpls;
 
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
