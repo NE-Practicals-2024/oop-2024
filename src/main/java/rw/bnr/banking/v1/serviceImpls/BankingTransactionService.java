@@ -51,6 +51,9 @@ public class BankingTransactionService implements IBankingTransactionService {
             if (dto.getTransactionType() == ETransactionType.TRANSFER) {
                 throw new BadRequestException("Receiver id is required");
             }
+            if(receiverId==customer.getId()){
+                throw new BadRequestException("You can't transfer to yourself");
+            }
             throw new BadRequestException("Invalid transaction type");
         }
         this.customerService.save(customer);
