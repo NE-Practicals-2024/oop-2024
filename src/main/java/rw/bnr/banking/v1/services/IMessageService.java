@@ -10,6 +10,7 @@ public interface IMessageService {
 
     Message getMessageById(UUID id);
 
-    Page<Message> findAllMessages(Pageable pageable, UUID customerId);
+    Page<Message> findAllMessages(Pageable pageable);
+    Page<Message> findAllMessagesByCustomer(Pageable pageable,UUID customerId);
 
 }

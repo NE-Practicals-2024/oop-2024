@@ -12,7 +12,12 @@ public interface IBankingTransactionService {
 
     BankingTransaction createTransaction(CreateTransactionDTO dto, UUID receiverId);
 
-    Page<BankingTransaction> getAllTransactions(Pageable pageable, ETransactionType type, UUID customerId);
+    Page<BankingTransaction> getAllTransactions(Pageable pageable);
+
+    Page<BankingTransaction> getAllTransactionsByCustomer(Pageable pageable, UUID customerId);
+
+    Page<BankingTransaction> getAllTransactionsByType(Pageable pageable, ETransactionType type);
+
 
     BankingTransaction getTransactionById(UUID id);
 

@@ -1,37 +1,25 @@
 package rw.bnr.banking.v1.serviceImpls;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import rw.bnr.banking.v1.enums.ECustomerStatus;
-import rw.bnr.banking.v1.enums.ERole;
 import rw.bnr.banking.v1.exceptions.BadRequestException;
 import rw.bnr.banking.v1.exceptions.ResourceNotFoundException;
 import rw.bnr.banking.v1.models.Customer;
 import rw.bnr.banking.v1.models.File;
-import rw.bnr.banking.v1.models.Role;
 import rw.bnr.banking.v1.payload.request.UpdateCustomerDTO;
-import rw.bnr.banking.v1.repositories.IRoleRepository;
 import rw.bnr.banking.v1.repositories.ICustomerRepository;
+import rw.bnr.banking.v1.repositories.IRoleRepository;
 import rw.bnr.banking.v1.services.ICustomerService;
 import rw.bnr.banking.v1.services.IFileService;
 import rw.bnr.banking.v1.standalone.FileStorageService;
 import rw.bnr.banking.v1.utils.Utility;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,49 +34,13 @@ public class CustomerServiceImpl implements ICustomerService {
     private final IRoleRepository roleRepository;
 
     @Override
-    public Page<Customer> getAll(Pageable pageable, ERole role, String searchKey, ECustomerStatus status) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
+    public Page<Customer> getAll(Pageable pageable) {
+        return this.userRepository.findAll(pageable);
+    }
 
-        CriteriaQuery<Customer> cr = cb.createQuery(Customer.class);
-        Root<Customer> root = cr.from(Customer.class);
-
-        // Query for count
-        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-        Root<Customer> countRoot = countQuery.from(Customer.class);
-        countQuery.select(cb.count(countRoot));
-
-        // List to hold predicates
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (searchKey != null && !searchKey.isEmpty()) {
-            String searchPattern = "%" + searchKey.toLowerCase() + "%";
-            Predicate namePredicate = cb.like(cb.lower(root.get("name")), searchPattern);
-            predicates.add(namePredicate);
-        }
-
-        if (role != null) {
-            // Roles are stored in the database as a set of entity Role
-            Role roleEntity = roleRepository.findByName(role).orElseThrow(() -> new BadRequestException("Customer Role not set"));
-            Predicate rolePredicate = cb.isMember(roleEntity, root.get("roles"));
-            predicates.add(rolePredicate);
-        }
-
-        // Apply predicates to queries
-        if (!predicates.isEmpty()) {
-            Predicate combinedPredicate = cb.and(predicates.toArray(new Predicate[0]));
-            cr.where(combinedPredicate);
-            countQuery.where(combinedPredicate);
-        }
-
-        // Pagination
-        TypedQuery<Customer> query = em.createQuery(cr);
-        query.setFirstResult((int) pageable.getOffset());
-        query.setMaxResults(pageable.getPageSize());
-
-        List<Customer> resultList = query.getResultList();
-        Long count = em.createQuery(countQuery).getSingleResult();
-
-        return new PageImpl<>(resultList, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()), count);
+    @Override
+    public Page<Customer> search(Pageable pageable, String searchKey) {
+        return this.userRepository.search(pageable, searchKey);
     }
 
     @Override

@@ -28,11 +28,20 @@ public class MessageController {
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllMessages(
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit,
-            @RequestParam(value = "customerId", required = false) UUID customerId
+            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit
     ) {
         Pageable pageable = PageRequest.of(page, limit);
-        return ResponseEntity.ok(ApiResponse.success("Messages fetched successfully", this.messageService.findAllMessages(pageable, customerId)));
+        return ResponseEntity.ok(ApiResponse.success("Messages fetched successfully", this.messageService.findAllMessages(pageable)));
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<ApiResponse> getAllMessages(
+            @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit,
+            @PathVariable("customerId") UUID customerId
+    ) {
+        Pageable pageable = PageRequest.of(page, limit);
+        return ResponseEntity.ok(ApiResponse.success("Messages fetched successfully", this.messageService.findAllMessagesByCustomer(pageable, customerId)));
     }
 
 }

@@ -14,7 +14,8 @@ import java.util.UUID;
 
 public interface ICustomerService {
 
-    Page<Customer> getAll(Pageable pageable, ERole role, String searchKey, ECustomerStatus status);
+    Page<Customer> getAll(Pageable pageable);
+    Page<Customer> search(Pageable pageable,String searchKey);
 
     Customer getById(UUID id);
 

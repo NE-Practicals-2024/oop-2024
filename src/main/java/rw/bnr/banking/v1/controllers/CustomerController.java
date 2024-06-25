@@ -1,19 +1,5 @@
 package rw.bnr.banking.v1.controllers;
 
-import rw.bnr.banking.v1.enums.ECustomerStatus;
-import rw.bnr.banking.v1.enums.ERole;
-import rw.bnr.banking.v1.exceptions.BadRequestException;
-import rw.bnr.banking.v1.models.File;
-import rw.bnr.banking.v1.models.Role;
-import rw.bnr.banking.v1.models.Customer;
-import rw.bnr.banking.v1.payload.request.CreateCustomerDTO;
-import rw.bnr.banking.v1.payload.request.UpdateCustomerDTO;
-import rw.bnr.banking.v1.payload.response.ApiResponse;
-import rw.bnr.banking.v1.repositories.IRoleRepository;
-import rw.bnr.banking.v1.services.ICustomerService;
-import rw.bnr.banking.v1.services.IFileService;
-import rw.bnr.banking.v1.utils.Constants;
-import rw.bnr.banking.v1.utils.Utility;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,9 +10,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import rw.bnr.banking.v1.enums.ERole;
+import rw.bnr.banking.v1.exceptions.BadRequestException;
+import rw.bnr.banking.v1.models.Customer;
+import rw.bnr.banking.v1.models.File;
+import rw.bnr.banking.v1.models.Role;
+import rw.bnr.banking.v1.payload.request.CreateCustomerDTO;
+import rw.bnr.banking.v1.payload.request.UpdateCustomerDTO;
+import rw.bnr.banking.v1.payload.response.ApiResponse;
+import rw.bnr.banking.v1.repositories.IRoleRepository;
+import rw.bnr.banking.v1.services.ICustomerService;
+import rw.bnr.banking.v1.services.IFileService;
+import rw.bnr.banking.v1.utils.Constants;
+import rw.bnr.banking.v1.utils.Utility;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -58,13 +56,21 @@ public class CustomerController {
     @GetMapping(path = "/all")
     public ResponseEntity<ApiResponse> getAllUsers(
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit,
-            @RequestParam(value = "role", required = false) ERole role,
-            @RequestParam(value = "searchKey", required = false) String searchKey,
-            @RequestParam(value = "status", required = false) ECustomerStatus status
+            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit
     ) {
         Pageable pageable = Pageable.ofSize(limit).withPage(page);
-        return ResponseEntity.ok(ApiResponse.success("Users fetched successfully", this.customerService.getAll(pageable, role, searchKey, status)));
+        return ResponseEntity.ok(ApiResponse.success("Users fetched successfully", this.customerService.getAll(pageable)));
+    }
+
+
+    @GetMapping(path = "/search")
+    public ResponseEntity<ApiResponse> search(
+            @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit,
+            @RequestParam(value = "q") String q
+    ) {
+        Pageable pageable = Pageable.ofSize(limit).withPage(page);
+        return ResponseEntity.ok(ApiResponse.success("Users fetched successfully", this.customerService.search(pageable, q)));
     }
 
 
