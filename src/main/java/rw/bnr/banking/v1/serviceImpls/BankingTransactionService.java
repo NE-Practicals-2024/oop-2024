@@ -48,6 +48,9 @@ public class BankingTransactionService implements IBankingTransactionService {
             this.customerService.save(receiver);
             transaction.setReceiver(receiver);
         } else {
+            if (dto.getTransactionType() == ETransactionType.TRANSFER) {
+                throw new BadRequestException("Receiver id is required");
+            }
             throw new BadRequestException("Invalid transaction type");
         }
         this.customerService.save(customer);
@@ -55,9 +58,11 @@ public class BankingTransactionService implements IBankingTransactionService {
         transaction.setTransactionType(dto.getTransactionType());
         transaction.setCustomer(customer);
         if (dto.getTransactionType() == ETransactionType.SAVING) {
-            mailService.sendSavingsStoredSuccessfullyEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), customer.getAccount());
+            mailService.sendSavingsStoredSuccessfullyEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), customer.getAccount());
         } else if (dto.getTransactionType() == ETransactionType.WITHDRAW) {
-            mailService.sendWithdrawalSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), customer.getAccount());
+            mailService.sendWithdrawalSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), customer.getAccount());
+        } else if (dto.getTransactionType() == ETransactionType.TRANSFER) {
+            mailService.sendTransferSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), transaction.getReceiver().getFullName(), customer.getAccount());
         }
         return this.bankingTransactionRepository.save(transaction);
     }

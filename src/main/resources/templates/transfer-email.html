@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your withdrawal has been completed successfully</title>
+    <title>Your transfer has been completed successfully</title>
 </head>
 <body style="background-color: white; color: #4a4a4a; font-family: Arial, sans-serif;">
 <div style="max-width: 600px; margin: 0 auto; padding: 24px; background-color: white; border: 1px solid #e2e2e2; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border-radius: 8px;">
     <img src="https://upload.wikimedia.org/wikipedia/en/e/e4/National_Bank_of_Rwanda_logo.png"
          style="width: 176px; margin: 32px auto; display: block;" alt="BNR Logo">
     <div style="text-align: center; margin-bottom: 24px;">
-        <h1 style="font-size: 24px; font-weight: bold; color: #0DA549;">Withdrawal transaction completed
+        <h1 style="font-size: 24px; font-weight: bold; color: #0DA549;">Transfer transaction completed
             successfully</h1>
     </div>
     <div style="margin-bottom: 16px;">
@@ -18,11 +18,12 @@
             Dear <span th:text="${fullName}">User</span>,
         </p>
         <p style="margin-top: 8px;">
-            Your withdrawal of <span th:text="${amount}" style="font-weight: bold; font-size: 18px">0000</span> FRW on your account <span style="font-weight: bold; font-size: 18px" th:text="${accountCode}">AEGAEF</span>
+            Your transfer of <span th:text="${amount}" style="font-weight: bold; font-size: 18px">0000</span> FRW to
+            <span th:text="${receiverNames}" style="font-weight: bold; font-size: 18px">Names Here</span>
             has been completed successfully.
         </p>
         <p style="margin-top: 8px;">
-            Your new balance is <span th:text="${amount}" style="font-weight: bold; font-size: 18px">0000</span> FRW
+            Your new balance is  <span th:text="${amount}" style="font-weight: bold; font-size: 18px">0000</span> FRW
         </p>
     </div>
     <div style="margin-top: 24px; text-align: center;">

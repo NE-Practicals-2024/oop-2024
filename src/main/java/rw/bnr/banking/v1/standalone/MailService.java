@@ -122,7 +122,7 @@ public class MailService {
         }
     }
 
-    public void sendWithdrawalSuccessfulEmail(String to, String fullName, String amount, String accountCode) {
+    public void sendWithdrawalSuccessfulEmail(String to, String fullName, String amount, String balance, String accountCode) {
         try {
             MimeMessage message = this.mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -131,13 +131,14 @@ public class MailService {
             context.setVariable("fullName", fullName);
             context.setVariable("supportEmail", supportEmail);
             context.setVariable("amount", amount);
+            context.setVariable("balance", balance);
             context.setVariable("accountCode", accountCode);
             context.setVariable("currentYear", LocalDate.now().getYear());
 
             String htmlContent = templateEngine.process("withdraw-email", context);
 
             helper.setTo(to);
-            helper.setSubject("Withdrawal Successful");
+            helper.setSubject("Withdrawal Successful 🎉");
             helper.setText(htmlContent, true);
 
             this.mailSender.send(message);
@@ -146,7 +147,7 @@ public class MailService {
         }
     }
 
-    public void sendSavingsStoredSuccessfullyEmail(String to, String fullName, String amount, String accountCode) {
+    public void sendSavingsStoredSuccessfullyEmail(String to, String fullName, String amount, String balance, String accountCode) {
         try {
             MimeMessage message = this.mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -155,13 +156,40 @@ public class MailService {
             context.setVariable("fullName", fullName);
             context.setVariable("supportEmail", supportEmail);
             context.setVariable("amount", amount);
+            context.setVariable("balance", balance);
             context.setVariable("accountCode", accountCode);
             context.setVariable("currentYear", LocalDate.now().getYear());
 
             String htmlContent = templateEngine.process("saving-email", context);
 
             helper.setTo(to);
-            helper.setSubject("Savings Stored Successfully");
+            helper.setSubject("Savings Stored Successfully 🥳");
+            helper.setText(htmlContent, true);
+
+            this.mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new AppException("Error sending message", e);
+        }
+    }
+
+    public void sendTransferSuccessfulEmail(String to, String fullName, String amount, String balance, String receiverNames, String accountCode) {
+        try {
+            MimeMessage message = this.mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            Context context = new Context();
+            context.setVariable("fullName", fullName);
+            context.setVariable("supportEmail", supportEmail);
+            context.setVariable("amount", amount);
+            context.setVariable("balance", balance);
+            context.setVariable("receiverNames", receiverNames);
+            context.setVariable("accountCode", accountCode);
+            context.setVariable("currentYear", LocalDate.now().getYear());
+
+            String htmlContent = templateEngine.process("transfer-email", context);
+
+            helper.setTo(to);
+            helper.setSubject("Money Transfer Successful 🥳");
             helper.setText(htmlContent, true);
 
             this.mailSender.send(message);

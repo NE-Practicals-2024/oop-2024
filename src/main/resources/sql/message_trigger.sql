@@ -16,7 +16,8 @@ BEGIN
     IF NEW.transaction_type = 'WITHDRAW' THEN
         message := 'Dear ' || customer_name || ' Your WITHDRAW of ' || NEW.amount || ' on your account ' ||
                    account_number || ' has been completed successfully';
-    ELSE
+        -- when transaction \is SAVING
+    ELSIF NEW.transaction_type = 'SAVING' THEN
         message := 'Dear ' || customer_name || ' Your SAVING of ' || NEW.amount || ' on your account ' ||
                    account_number || ' has been completed successfully';
     END IF;
