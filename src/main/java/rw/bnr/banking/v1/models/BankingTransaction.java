@@ -24,11 +24,11 @@ public class BankingTransaction extends TimestampAudit {
     @Column(name = "id")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "sent_to_id")
     private Customer receiver;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
