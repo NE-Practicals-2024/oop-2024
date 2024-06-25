@@ -34,22 +34,22 @@ public class BankingTransactionController {
         Pageable pageable = PageRequest.of(page, limit);
         return ResponseEntity.ok(ApiResponse.success("Transactions fetched successfully", this.bankingTransactionService.getAllTransactions(pageable)));
     }
+    @GetMapping("/{id}")
+    private ResponseEntity<ApiResponse> getTransactionById(@PathVariable UUID id) {
+        return ResponseEntity.ok(ApiResponse.success("Transaction fetched successfully", this.bankingTransactionService.getTransactionById(id)));
+    }
 
-    @GetMapping("/{type}")
+    @GetMapping("/type/{type}")
     private ResponseEntity<ApiResponse> getAllTransactionsByType(@RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page, @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit, @PathVariable("type") ETransactionType type) {
         Pageable pageable = PageRequest.of(page, limit);
         return ResponseEntity.ok(ApiResponse.success("Transactions fetched successfully", this.bankingTransactionService.getAllTransactionsByType(pageable, type)));
     }
 
-    @GetMapping("")
+    @GetMapping("/customer")
     private ResponseEntity<ApiResponse> getAllTransactionsByCustomer(@RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page, @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit, @RequestParam(value = "customerId") UUID customerId) {
         Pageable pageable = PageRequest.of(page, limit);
         return ResponseEntity.ok(ApiResponse.success("Transactions fetched successfully", this.bankingTransactionService.getAllTransactionsByCustomer(pageable, customerId)));
     }
 
-    @GetMapping("/{id}")
-    private ResponseEntity<ApiResponse> getTransactionById(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponse.success("Transaction fetched successfully", this.bankingTransactionService.getTransactionById(id)));
-    }
 
 }
