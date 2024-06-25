@@ -1,5 +1,6 @@
 package rw.bnr.banking.v1.serviceImpls;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -90,5 +91,10 @@ public class BankingTransactionService implements IBankingTransactionService {
     public BankingTransaction getTransactionById(UUID id) {
         return this.bankingTransactionRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Transaction", "id", id.toString()));
+    }
+
+    @Override
+    public List<BankingTransaction> getAllTransactionsByCustomer(UUID customerId) {
+        return this.bankingTransactionRepository.findAllByCustomerId(customerId);
     }
 }

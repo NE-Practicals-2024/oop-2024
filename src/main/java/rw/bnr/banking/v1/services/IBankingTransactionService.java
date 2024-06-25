@@ -6,6 +6,7 @@ import rw.bnr.banking.v1.enums.ETransactionType;
 import rw.bnr.banking.v1.models.BankingTransaction;
 import rw.bnr.banking.v1.payload.request.CreateTransactionDTO;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface IBankingTransactionService {
@@ -18,7 +19,8 @@ public interface IBankingTransactionService {
 
     Page<BankingTransaction> getAllTransactionsByType(Pageable pageable, ETransactionType type);
 
-
     BankingTransaction getTransactionById(UUID id);
+
+    List<BankingTransaction> getAllTransactionsByCustomer(UUID customerId);
 
 }

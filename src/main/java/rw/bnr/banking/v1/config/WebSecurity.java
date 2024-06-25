@@ -35,6 +35,7 @@ public class WebSecurity {
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
+
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final CustomUserDetailsService userDetailsService;
 
@@ -43,7 +44,8 @@ public class WebSecurity {
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request ->
                         request
                                 .requestMatchers(
-                                        "/api/v1/files/load-file/**"
+                                        "/api/v1/files/load-file/**",
+                                        "/api/v1/transactions/download/**"
                                 ).permitAll()
                                 .requestMatchers(
                                         "/api/v1/auth/**",
