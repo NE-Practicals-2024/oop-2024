@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "banking_transaction")
+@Table(name = "banking_transactions")
 public class BankingTransaction extends TimestampAudit {
 
     @Id

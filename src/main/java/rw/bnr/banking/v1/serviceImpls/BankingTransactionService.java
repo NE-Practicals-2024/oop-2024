@@ -1,6 +1,7 @@
 package rw.bnr.banking.v1.serviceImpls;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class BankingTransactionService implements IBankingTransactionService {
 
 
     @Override
-    public BankingTransaction createTransaction(CreateTransactionDTO dto, UUID receiverId) {
+    public BankingTransaction createTransaction(CreateTransactionDTO dto, String receiverAccount) {
         Customer customer = this.customerService.getLoggedInCustomer();
         BankingTransaction transaction = new BankingTransaction();
         if (dto.getTransactionType() == ETransactionType.WITHDRAW) {
@@ -37,21 +38,21 @@ public class BankingTransactionService implements IBankingTransactionService {
             customer.setBalance(customer.getBalance() - dto.getAmount());
         } else if (dto.getTransactionType() == ETransactionType.SAVING) {
             customer.setBalance(customer.getBalance() + dto.getAmount());
-        } else if (dto.getTransactionType() == ETransactionType.TRANSFER && receiverId != null) {
+        } else if (dto.getTransactionType() == ETransactionType.TRANSFER && receiverAccount != null) {
             if (customer.getBalance() < dto.getAmount()) {
                 throw new BadRequestException("Insufficient balance");
             }
             customer.setBalance(customer.getBalance() - dto.getAmount());
-            Customer receiver = this.customerService.getById(receiverId);
+            Customer receiver = this.customerService.findByAccountCode(receiverAccount).orElseThrow(() -> new ResourceNotFoundException("Customer", "account", receiverAccount));
+            if (receiver.getId().equals(customer.getId())) {
+                throw new BadRequestException("You can't transfer to yourself");
+            }
             receiver.setBalance(receiver.getBalance() + dto.getAmount());
             this.customerService.save(receiver);
             transaction.setReceiver(receiver);
         } else {
             if (dto.getTransactionType() == ETransactionType.TRANSFER) {
                 throw new BadRequestException("Receiver id is required");
-            }
-            if(receiverId==customer.getId()){
-                throw new BadRequestException("You can't transfer to yourself");
             }
             throw new BadRequestException("Invalid transaction type");
         }
@@ -65,6 +66,7 @@ public class BankingTransactionService implements IBankingTransactionService {
             mailService.sendWithdrawalSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), customer.getAccount());
         } else if (dto.getTransactionType() == ETransactionType.TRANSFER) {
             mailService.sendTransferSuccessfulEmail(customer.getEmail(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(customer.getBalance()), transaction.getReceiver().getFullName(), customer.getAccount());
+            mailService.sendReceivedAmountEmail(transaction.getReceiver().getEmail(), transaction.getReceiver().getFullName(), customer.getFullName(), dto.getAmount().toString(), String.valueOf(transaction.getReceiver().getBalance()));
         }
         return this.bankingTransactionRepository.save(transaction);
     }

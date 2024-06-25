@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface IBankingTransactionService {
 
-    BankingTransaction createTransaction(CreateTransactionDTO dto, UUID receiverId);
+    BankingTransaction createTransaction(CreateTransactionDTO dto, String receiverAccount);
 
     Page<BankingTransaction> getAllTransactions(Pageable pageable);
 

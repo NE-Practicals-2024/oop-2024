@@ -24,9 +24,9 @@ public class BankingTransactionController {
     private final IBankingTransactionService bankingTransactionService;
 
     @PostMapping("/create")
-    private ResponseEntity<ApiResponse> createTransaction(@RequestBody @Valid CreateTransactionDTO dto, @RequestParam(value = "receiverId", required = false) UUID receiverId) {
+    private ResponseEntity<ApiResponse> createTransaction(@RequestBody @Valid CreateTransactionDTO dto, @RequestParam(value = "receiverAccount", required = false) String receiverAccount) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().toString());
-        return ResponseEntity.created(uri).body(ApiResponse.success("Transaction created successfully", this.bankingTransactionService.createTransaction(dto, receiverId)));
+        return ResponseEntity.created(uri).body(ApiResponse.success("Transaction created successfully", this.bankingTransactionService.createTransaction(dto, receiverAccount)));
     }
 
     @GetMapping("/all")
