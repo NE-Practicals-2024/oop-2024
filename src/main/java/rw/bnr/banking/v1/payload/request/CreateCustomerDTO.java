@@ -22,7 +22,7 @@ public class CreateCustomerDTO {
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "[0-9]{9,12}", message = "Your phone is not a valid tel we expect 2507***, or 07*** or 7***")
+    @Pattern(regexp = "^\\+250\\d{9}$", message = "Your phone is not a valid tel we expect +2507***")
     private String mobile;
 
     // It should not be a future date
