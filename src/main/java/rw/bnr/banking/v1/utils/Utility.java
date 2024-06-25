@@ -19,7 +19,6 @@ public class Utility {
 
     private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
-
     static char randomChar() {
         return ALPHANUM.charAt(rng.nextInt(ALPHANUM.length()));
     }
@@ -66,6 +65,7 @@ public class Utility {
         String contentType = file.getContentType();
         return contentType != null && (contentType.equals(MediaType.IMAGE_JPEG_VALUE) || contentType.equals(MediaType.IMAGE_PNG_VALUE) || contentType.equals(MediaType.IMAGE_GIF_VALUE));
     }
+
     public static boolean isCodeValid(String activationCode, String sentCode) {
         return activationCode.trim().equalsIgnoreCase(sentCode.trim());
     }
@@ -94,6 +94,5 @@ public class Utility {
         }
         return resetCode.toString();
     }
-
 
 }

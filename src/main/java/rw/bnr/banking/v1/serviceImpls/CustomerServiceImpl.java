@@ -23,8 +23,8 @@ import rw.bnr.banking.v1.models.Customer;
 import rw.bnr.banking.v1.models.File;
 import rw.bnr.banking.v1.models.Role;
 import rw.bnr.banking.v1.payload.request.UpdateCustomerDTO;
-import rw.bnr.banking.v1.repositories.IRoleRepository;
 import rw.bnr.banking.v1.repositories.ICustomerRepository;
+import rw.bnr.banking.v1.repositories.IRoleRepository;
 import rw.bnr.banking.v1.services.ICustomerService;
 import rw.bnr.banking.v1.services.IFileService;
 import rw.bnr.banking.v1.standalone.FileStorageService;
@@ -62,8 +62,11 @@ public class CustomerServiceImpl implements ICustomerService {
 
         if (searchKey != null && !searchKey.isEmpty()) {
             String searchPattern = "%" + searchKey.toLowerCase() + "%";
-            Predicate namePredicate = cb.like(cb.lower(root.get("name")), searchPattern);
-            predicates.add(namePredicate);
+            Predicate firstNamePredicate = cb.like(cb.lower(root.get("firstName")), searchPattern);
+            Predicate lastNamePredicate = cb.like(cb.lower(root.get("lastName")), searchPattern);
+            Predicate emailPredicate = cb.like(cb.lower(root.get("email")), searchPattern);
+            Predicate mobilePredicate = cb.like(cb.lower(root.get("mobile")), searchPattern);
+            predicates.add(cb.or(firstNamePredicate, lastNamePredicate, emailPredicate, mobilePredicate));
         }
 
         if (role != null) {
@@ -71,6 +74,11 @@ public class CustomerServiceImpl implements ICustomerService {
             Role roleEntity = roleRepository.findByName(role).orElseThrow(() -> new BadRequestException("Customer Role not set"));
             Predicate rolePredicate = cb.isMember(roleEntity, root.get("roles"));
             predicates.add(rolePredicate);
+        }
+
+        if (status != null) {
+            Predicate statusPredicate = cb.equal(root.get("status"), status);
+            predicates.add(statusPredicate);
         }
 
         // Apply predicates to queries
