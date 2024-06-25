@@ -35,8 +35,8 @@ public class OpenApiConfig {
                                 ))
                 .info(
                         new Info()
-                                .title("Springboot Project OpenAPI Docs")
-                                .version("1.0.0").description("Doc Description"));
+                                .title("BNR Banking Application Docs")
+                                .version("1.0.0").description("This is a banking application developed by Precieux Mugisha"));
     }
 
 }

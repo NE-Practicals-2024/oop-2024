@@ -49,7 +49,6 @@ public class CustomerServiceImpl implements ICustomerService {
     public Page<Customer> getAll(Pageable pageable, ERole role, String searchKey, ECustomerStatus status) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
-        // Query for reserved names
         CriteriaQuery<Customer> cr = cb.createQuery(Customer.class);
         Root<Customer> root = cr.from(Customer.class);
 
