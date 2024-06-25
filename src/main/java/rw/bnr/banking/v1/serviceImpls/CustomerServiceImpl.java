@@ -132,7 +132,7 @@ public class CustomerServiceImpl implements ICustomerService {
         entity.setEmail(dto.getEmail());
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
-        entity.setTelephone(dto.getTelephone());
+        entity.setMobile(dto.getMobile());
 
         return this.userRepository.save(entity);
     }
@@ -145,6 +145,7 @@ public class CustomerServiceImpl implements ICustomerService {
         this.userRepository.deleteById(id);
         return true;
     }
+
     @Override
     public Customer getLoggedInCustomer() {
         String email;

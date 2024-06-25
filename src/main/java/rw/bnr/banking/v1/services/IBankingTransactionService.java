@@ -10,8 +10,10 @@ import java.util.UUID;
 
 public interface IBankingTransactionService {
 
-    BankingTransaction createTransaction(CreateTransactionDTO dto);
+    BankingTransaction createTransaction(CreateTransactionDTO dto, UUID receiverId);
+
     Page<BankingTransaction> getAllTransactions(Pageable pageable, ETransactionType type, UUID customerId);
+
     BankingTransaction getTransactionById(UUID id);
 
 }

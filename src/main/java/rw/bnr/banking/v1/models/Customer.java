@@ -22,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "customers", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}), @UniqueConstraint(columnNames = {"telephone"})})
+@Table(name = "customers", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}), @UniqueConstraint(columnNames = {"mobile"})})
 public class Customer extends TimestampAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,16 +39,16 @@ public class Customer extends TimestampAudit {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "telephone")
-    private String telephone;
+    @Column(name = "mobile")
+    private String mobile;
 
-    @Column(name ="balance")
+    @Column(name = "balance")
     private double balance;
 
-    @Column(name ="account")
+    @Column(name = "account")
     private String account;
 
-    @Column(name ="dob")
+    @Column(name = "dob")
     private LocalDate dob;
 
     @JsonIgnore
@@ -80,11 +80,11 @@ public class Customer extends TimestampAudit {
         return this.firstName + " " + this.lastName;
     }
 
-    public Customer(String email, String firstName, String lastName, String telephone, String password) {
+    public Customer(String email, String firstName, String lastName, String mobile, String password) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.telephone = telephone;
+        this.mobile = mobile;
         this.password = password;
     }
 }

@@ -74,8 +74,8 @@ public class Utility {
         String message = ex.getMostSpecificCause().getMessage();
         if (message.contains("email")) {
             return String.format("User with email '%s' already exists", user.getEmail());
-        } else if (message.contains("telephone")) {
-            return String.format("User with phone number '%s' already exists", user.getTelephone());
+        } else if (message.contains("mobile")) {
+            return String.format("User with phone number '%s' already exists", user.getMobile());
         }
         // Add more checks for other unique constraints if necessary
         return "A unique constraint violation occurred";

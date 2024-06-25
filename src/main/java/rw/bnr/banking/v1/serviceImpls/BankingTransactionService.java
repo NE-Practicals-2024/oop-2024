@@ -39,7 +39,7 @@ public class BankingTransactionService implements IBankingTransactionService {
 
 
     @Override
-    public BankingTransaction createTransaction(CreateTransactionDTO dto) {
+    public BankingTransaction createTransaction(CreateTransactionDTO dto, UUID receiverId) {
         Customer customer = this.customerService.getLoggedInCustomer();
         BankingTransaction transaction = new BankingTransaction();
         if (dto.getTransactionType() == ETransactionType.WITHDRAW) {
@@ -49,12 +49,12 @@ public class BankingTransactionService implements IBankingTransactionService {
             customer.setBalance(customer.getBalance() - dto.getAmount());
         } else if (dto.getTransactionType() == ETransactionType.SAVING) {
             customer.setBalance(customer.getBalance() + dto.getAmount());
-        } else if (dto.getTransactionType() == ETransactionType.TRANSFER && dto.getSendTo() != null) {
+        } else if (dto.getTransactionType() == ETransactionType.TRANSFER && receiverId != null) {
             if (customer.getBalance() < dto.getAmount()) {
                 throw new BadRequestException("Insufficient balance");
             }
             customer.setBalance(customer.getBalance() - dto.getAmount());
-            Customer receiver = this.customerService.getById(dto.getSendTo());
+            Customer receiver = this.customerService.getById(receiverId);
             receiver.setBalance(receiver.getBalance() + dto.getAmount());
             this.customerService.save(receiver);
             transaction.setReceiver(receiver);

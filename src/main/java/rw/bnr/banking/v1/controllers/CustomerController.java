@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -87,8 +88,9 @@ public class CustomerController {
         customer.setEmail(dto.getEmail());
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
-        customer.setTelephone(dto.getMobile());
+        customer.setMobile(dto.getMobile());
         customer.setPassword(encodedPassword);
+        customer.setDob(dto.getDob());
         customer.setBalance(dto.getBalance());
         customer.setAccount(accountCode);
         customer.setRoles(Collections.singleton(role));

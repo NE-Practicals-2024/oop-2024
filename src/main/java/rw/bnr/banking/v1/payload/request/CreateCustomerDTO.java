@@ -1,11 +1,10 @@
 package rw.bnr.banking.v1.payload.request;
 
 
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import rw.bnr.banking.v1.validators.ValidPassword;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -26,7 +25,10 @@ public class CreateCustomerDTO {
     @Pattern(regexp = "[0-9]{9,12}", message = "Your phone is not a valid tel we expect 2507***, or 07*** or 7***")
     private String mobile;
 
+    // It should not be a future date
+    @Past(message = "Date of birth should be in the past")
     @NotNull(message = "Date of birth should not be empty")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
     @NotNull

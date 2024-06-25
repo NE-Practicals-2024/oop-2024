@@ -12,11 +12,6 @@ import java.util.UUID;
 @Data
 public class CreateTransactionDTO {
 
-    //This field is not required in the request, add a validation to specify that it can be null
-
-    @Nullable
-    private UUID sendTo;
-
     @NotNull
     @DecimalMin(value = "0.1", inclusive = false)
     private Double amount;

@@ -161,7 +161,7 @@ public class MailService {
             String htmlContent = templateEngine.process("saving-email", context);
 
             helper.setTo(to);
-            helper.setSubject("Account Rejected");
+            helper.setSubject("Savings Stored Successfully");
             helper.setText(htmlContent, true);
 
             this.mailSender.send(message);

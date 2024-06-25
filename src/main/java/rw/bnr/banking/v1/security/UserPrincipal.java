@@ -27,7 +27,7 @@ public class UserPrincipal implements UserDetails {
 
     private String lastName;
 
-    private String telephone;
+    private String mobile;
 
     @JsonIgnore
     private String password;
@@ -45,7 +45,7 @@ public class UserPrincipal implements UserDetails {
                 customer.getEmail(),
                 customer.getFirstName(),
                 customer.getLastName(),
-                customer.getTelephone(),
+                customer.getMobile(),
                 customer.getPassword(),
                 customer.getStatus(),
                 authorities);

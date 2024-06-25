@@ -26,28 +26,19 @@ public class BankingTransactionController {
     private final IBankingTransactionService bankingTransactionService;
 
     @PostMapping("/create")
-    private ResponseEntity<ApiResponse> createTransaction(
-            @RequestBody @Valid CreateTransactionDTO dto
-    ) {
+    private ResponseEntity<ApiResponse> createTransaction(@RequestBody @Valid CreateTransactionDTO dto, @RequestParam(value = "receiverId", required = false) UUID receiverId) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().toString());
-        return ResponseEntity.created(uri).body(ApiResponse.success("Transaction created successfully", this.bankingTransactionService.createTransaction(dto)));
+        return ResponseEntity.created(uri).body(ApiResponse.success("Transaction created successfully", this.bankingTransactionService.createTransaction(dto, receiverId)));
     }
 
     @GetMapping("/all")
-    private ResponseEntity<ApiResponse> getAllTransactions(
-            @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit,
-            @RequestParam(value = "type", required = false) ETransactionType type,
-            @RequestParam(value = "customerId", required = false) UUID customerId
-    ) {
+    private ResponseEntity<ApiResponse> getAllTransactions(@RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page, @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit, @RequestParam(value = "type", required = false) ETransactionType type, @RequestParam(value = "customerId", required = false) UUID customerId) {
         Pageable pageable = PageRequest.of(page, limit);
         return ResponseEntity.ok(ApiResponse.success("Transactions fetched successfully", this.bankingTransactionService.getAllTransactions(pageable, type, customerId)));
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<ApiResponse> getTransactionById(
-            @PathVariable UUID id
-    ) {
+    private ResponseEntity<ApiResponse> getTransactionById(@PathVariable UUID id) {
         return ResponseEntity.ok(ApiResponse.success("Transaction fetched successfully", this.bankingTransactionService.getTransactionById(id)));
     }
 
